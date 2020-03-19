@@ -1,1 +1,6 @@
 <pre>api.timelineitems</pre>
+
+<div *ngFor="let item of items; let i = index">
+    <span>{{item.data}}</span><br>
+    <label>Total_cases: {{item.total_cases}}</label><br>
+</div>
