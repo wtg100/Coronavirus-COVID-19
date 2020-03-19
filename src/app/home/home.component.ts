@@ -9,12 +9,33 @@ import { Api } from '../shared/models/api';
 })
 export class HomeComponent implements OnInit {
 
-  api: Api[];
+  data: any;
+  items: Api_data[] = [];
 
   constructor(private apiService: ApiThevirustrackerService) { }
 
   ngOnInit() {
-    this.apiService.list().subscribe((api: Api[]) => this.api = api);
+    this.apiService.list()
+      .subscribe({
+        next: (data: any) => {
+          this.data = data.timelineitems[0];
+          /*console.log('data: ' + data.countrytimelinedata[0].info.title);
+          console.log('data: ' + data.timelineitems[0]['3/19/2020'].total_cases);
+          this.items = data['timelineitems'];*/
+
+          this.getDados('3/18/2020');
+          this.getDados('3/19/2020');
+
+        }
+      });
+  }
+
+  private getDados(dataDesejada: string) {
+    let dado: Api_data = new Api_data();
+    dado.data = dataDesejada;
+    dado.total_cases = this.data[dado.data].total_cases;
+    console.log('total_cases: ' + dado.total_cases);
+    this.items.push(dado);
   }
 
 }
